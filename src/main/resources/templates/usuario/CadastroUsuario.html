@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:th="http//www.thymeleaf.org"
+   xmlns:layout="http://www.ultra.net.nz/thymeleaf/layout"
+   layout:decorator="layout/LayoutPadrao">
+<head>
+	<title>Cadastro Usuario</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+</head>
+	
+<section class="aw-layout-content  js-content" layout:fragment="conteudo">	
+			<div class="page-header">
+				<div class="container-fluid">
+					<h1>
+						Cadastro de Usuário
+					</h1>
+				</div>
+			</div>
+	<div class="container-fluid">
+		
+				<!--<div class="alert  alert-danger  alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<i class="fa  fa-exclamation-circle"></i> Já existe um produto com o nome informado.
+				</div>-->
+	
+		<form method="POST" th:object="${cliente}"  class="form-vertical  js-form-loading">
+		<div class="row">
+			<div class="col-sm-12  form-group">
+				<label for="nome">Nome</label>
+				<input id="nome" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6  form-group">
+				<label for="email">E-mail</label>
+				<input id="email" type="text" class="form-control"/>
+			</div>
+			<div class="col-sm-3  form-group">
+				<label for="dataNascimento">Data Nascimento</label>
+				<input id="dataNascimentol" type="text" class="form-control"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3  form-group">
+				<label for="senha">Senha</label>
+				<input id="email" type="password" class="form-control"/>
+			</div>
+			<div class="col-sm-3  form-group">
+				<label for="confirmação">Confirmação de Senha</label>
+				<input id="confirmação" type="password" class="form-control"/>
+			</div>
+			<div class="col-sm-3  form-group">							
+				<label class="contrl-label">Status</label>
+					<div>
+						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger"
+						   data-on-text="Ativo" data-off-text="Inativo">
+					</div>
+				
+			</div>
+		</div>
+			<div class="row">
+				<div class="col-sm-6  form-group">							
+						<label class="control-label">Grupos</label>
+						<div>
+							<div class="checkbox  checkbox-inline">
+								<input type="checkbox">
+								<label>Administrador</label>
+							</div>
+							<div class="checkbox  checkbox-inline">
+								<input type="checkbox">
+								<label>Vendedor</label>
+							</div>
+						</div>
+				 </div>
+			</div>			
+		
+		<div class="form-group">
+			<button class="btn  btn-primary" type="submit">Salvar</button>					
+		</div>
+		</form>
+	</div>
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/vendor/bootstrap-switch.min.js}"></script>
+	<script>
+		$('.js-status').bootstrapSwitch();
+	</script>
+</th:block>
+</html>
+		

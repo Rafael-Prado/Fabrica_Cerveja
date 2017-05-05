@@ -1,0 +1,23 @@
+/*
+###############
+#UTILIDADES
+###############
+*/
+/**/
+.cr-glyphocon-large{
+	font-size: 18px;
+}
+
+/*
+###############
+#COMPONENTES
+###############
+*/
+/* Field Action*/
+.cr-field-action{
+	display: flex;
+}
+
+.cr-field-actio__icon{
+	margin: 6px 0 0 5px;
+}
