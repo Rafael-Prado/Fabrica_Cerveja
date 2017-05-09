@@ -20,19 +20,20 @@ import com.prado.cerveja.service.CadastroEstiloService;
 import com.prado.cerveja.service.exception.NomeEstiloJaCadastradoException;
 
 @Controller
+@RequestMapping(value="/estilo")
 public class EstilosController {
 	
 	
 	@Autowired
 	private CadastroEstiloService cadastroEstiloService;
 	
-	@RequestMapping("/estilo/novo")
+	@RequestMapping("/novo")
 	public ModelAndView novo(Estilo estilo){
 		ModelAndView mv = new ModelAndView("estilo/CadastroEstilo");		
 		return mv;
 	}
 	
-	@RequestMapping(value = "/estilo/novo", method = RequestMethod.POST)
+	@RequestMapping(value = "/novo", method = RequestMethod.POST)
 	public ModelAndView cadastra(@Valid Estilo estilo, BindingResult result, Model model, RedirectAttributes attributes){
 		if(result.hasErrors()){
 			return novo(estilo);
@@ -47,21 +48,14 @@ public class EstilosController {
 		return new ModelAndView("redirect:/estilo/novo");
 	}
 	
-	@RequestMapping(value = "/estilo", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping( method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody ResponseEntity<?> salvar(@RequestBody @Valid Estilo estilo, BindingResult result ){
 		if (result.hasErrors()) {
 			return ResponseEntity.badRequest().body(result.getFieldError("nome").getDefaultMessage());
-		}
-		try {
-			
-			estilo = cadastroEstiloService.salvar(estilo);
-			
-		} catch (NomeEstiloJaCadastradoException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+		}	
 		
-		return 	ResponseEntity.ok(estilo);
-		
+		estilo = cadastroEstiloService.salvar(estilo);		
+		return 	ResponseEntity.ok(estilo);		
 	}
 	
 }
