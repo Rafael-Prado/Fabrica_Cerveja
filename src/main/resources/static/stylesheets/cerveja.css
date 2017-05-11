@@ -8,6 +8,11 @@
 	font-size: 18px;
 }
 
+.cr-required > .control-label:after{
+	content: "*"
+}
+
+
 /*
 ###############
 #COMPONENTES
