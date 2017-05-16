@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.StringUtils;
 
 import com.prado.cerveja.validation.SKU;
 
@@ -44,7 +45,7 @@ public class Cerveja  {
 	private String nome;
 
 	@NotBlank(message = "A descrição é obrigatória")
-	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e 50")
+	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e 150")
 	private String descricao;
 
 	@NotNull(message = "Valor é obrigatório")
@@ -178,6 +179,10 @@ public class Cerveja  {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+	
+	public String getFotoOuMock() {
+		return !StringUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 
 

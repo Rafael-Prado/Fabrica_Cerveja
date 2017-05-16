@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
+
 
 
 public class FotoStorageLocal implements FotoStorage {
@@ -43,6 +46,20 @@ public class FotoStorageLocal implements FotoStorage {
 	}
 	
 	@Override
+	public void salvar(String foto) {
+		try {
+			Files.move(this.localTeporario.resolve(foto), this.local.resolve(foto));
+		} catch (IOException e) {
+			throw new RuntimeException("Erro ao salvar a foto e m local final", e);
+		}
+		try {
+			Thumbnails.of(this.local.resolve(foto).toString()).size(40,68).toFiles(Rename.PREFIX_DOT_THUMBNAIL);
+		} catch (IOException e) {
+			throw new RuntimeException("Erro ao gerar thubnails", e);
+		}
+	}
+	
+	@Override
 	public byte[] recuperarFotoTemporaria(String nome) {
 		try {
 			return Files.readAllBytes(this.localTeporario.resolve(nome));
@@ -50,6 +67,16 @@ public class FotoStorageLocal implements FotoStorage {
 			throw new RuntimeException("Erro ao ler a foto", e);
 		}
 	}
+	
+	@Override
+	public byte[] recuperar(String nome) {
+		try {
+			return Files.readAllBytes(this.local.resolve(nome));
+		} catch (IOException e) {
+			throw new RuntimeException("Erro ao recuperar a foto", e);
+		}
+	}
+
 	
 	private String renomearArquivo(String nomeOriginal){
 		String novoNome = UUID.randomUUID().toString() + "_" + nomeOriginal;
@@ -75,5 +102,6 @@ public class FotoStorageLocal implements FotoStorage {
 		}
 		
 	}
+	
 	
 }

@@ -19,6 +19,7 @@ import com.prado.cerveja.model.Origem;
 import com.prado.cerveja.model.Sabor;
 import com.prado.cerveja.repository.Cervejas;
 import com.prado.cerveja.repository.Estilos;
+import com.prado.cerveja.repository.filter.CervejaFilter;
 import com.prado.cerveja.service.CadastroCervejaService;
 
 @Controller
@@ -56,13 +57,13 @@ public class CervejasController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(){
+	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result){
 		ModelAndView mv = new ModelAndView("cerveja/PesquisaCerveja");
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
 		
-		mv.addObject("cervejas",cervejas.findAll());
+		mv.addObject("cervejas",cervejas.filtra(cervejaFilter));
 		return mv;
 	}
 	
