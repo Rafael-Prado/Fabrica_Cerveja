@@ -24,3 +24,4 @@ $(function() {
 	var maskMoney = new Cerveja.MaskMoney();
 	maskMoney.enable();
 })
+
