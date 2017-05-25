@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
@@ -20,6 +21,7 @@ import com.prado.cerveja.model.Cerveja;
 import com.prado.cerveja.repository.Cervejas;
 
 @Configuration
+@ComponentScan(basePackageClasses = Cervejas.class)
 @EnableJpaRepositories(basePackageClasses = Cervejas.class, enableDefaultTransactions= false)
 @EnableTransactionManagement
 public class JPAConfig {
