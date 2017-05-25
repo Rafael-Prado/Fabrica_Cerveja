@@ -1,7 +1,5 @@
 package com.prado.cerveja.controller;
 
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -39,6 +37,7 @@ public class CervejasController {
 	@Autowired
 	private Cervejas cervejas;
 	
+	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja){
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
@@ -64,7 +63,7 @@ public class CervejasController {
 	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result
 			,@PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest){
 		ModelAndView mv = new ModelAndView("cerveja/PesquisaCerveja");
-		mv.addObject("estilos", estilos.findAll());
+		mv.addObject("estilos", estilos.findAll()); 
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
 		

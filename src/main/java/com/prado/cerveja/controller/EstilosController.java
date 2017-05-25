@@ -1,8 +1,13 @@
 package com.prado.cerveja.controller;
 
+
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.prado.cerveja.controller.page.PageWrapper;
 import com.prado.cerveja.model.Estilo;
+import com.prado.cerveja.repository.Estilos;
+import com.prado.cerveja.repository.filter.EstiloFilter;
 import com.prado.cerveja.service.CadastroEstiloService;
 import com.prado.cerveja.service.exception.NomeEstiloJaCadastradoException;
 
@@ -26,6 +34,9 @@ public class EstilosController {
 	
 	@Autowired
 	private CadastroEstiloService cadastroEstiloService;
+	
+	@Autowired
+	private Estilos estilos;
 	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Estilo estilo){
@@ -58,4 +69,14 @@ public class EstilosController {
 		return 	ResponseEntity.ok(estilo);		
 	}
 	
+	@RequestMapping
+	public ModelAndView pesquisar(EstiloFilter estilofilter, BindingResult result, 
+			@PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest){
+		ModelAndView mv = new ModelAndView("estilo/PesquisaEstilo");
+		
+		PageWrapper<Estilo> pageWrapper = new PageWrapper<>(estilos.filtrar(estilofilter,  pageable), httpServletRequest);
+		mv.addObject("pagina", pageWrapper);
+		return mv;
+		
+	}
 }
