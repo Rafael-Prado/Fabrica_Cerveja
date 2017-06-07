@@ -4,7 +4,7 @@ Cerveja.MascaraCpfCnpj = (function(){
 	function MascaraCpfCnpj(){
 		this.radioTipoPessoa = $('.js-radio-tipo-pessoa');
 		this.labelCpfCnpj = $('[for=cpfcnpj]');
-		this.inputCpfCnpj = $('#cpfcnpj')
+		this.inputCpfCnpj = $('#cpfcnpj');
 	}
 	
 	MascaraCpfCnpj.prototype.iniciar = function(){
@@ -17,6 +17,7 @@ Cerveja.MascaraCpfCnpj = (function(){
 		this.inputCpfCnpj.mask(tipoPessoaSelecionada.data('mascara'));
 		this.inputCpfCnpj.val('');
 		this.inputCpfCnpj.removeAttr('disabled');
+		
 	}
 	
 	
