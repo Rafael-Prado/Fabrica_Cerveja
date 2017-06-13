@@ -25,14 +25,24 @@ Cerveja.ComboCidade =(function(){
 		this.comboEstado = comboEstado;
 		this.combo = $('#cidade');
 		this.imgLoading = $('.js-img-loading')
+		this.inputHiddenCidadeSelecionada = $('#inputHiddencodigoCidadeSelecionada')
 	}
 		
 	ComboCidade.prototype.iniciar = function(){
 		this.comboEstado.on('alterado', onEstadoAlterado.bind(this));
 		reset.call(this);
+		var codigoEstado = this.comboEstado.combo.val();		
+		incializarCidade.call(this, codigoEstado);
+		
+		
 	}	
 	
-	function onEstadoAlterado(evento, codigoEstado) {
+	function onEstadoAlterado(evento, codigoEstado) {		
+		this.inputHiddenCidadeSelecionada.val('');
+		incializarCidade.call(this, codigoEstado);
+	}
+	
+	function incializarCidade(codigoEstado){
 		if(codigoEstado){
 			   var resposta = $.ajax({
 				url: this.combo.data("url"),
@@ -43,20 +53,25 @@ Cerveja.ComboCidade =(function(){
 				complete:  finalizarRequisicao.bind(this),
 		  
 		   });	
-			   resposta.done(onBuscarCidadesFinalizado.bind(this))
+			   resposta.done(onBuscarCidadesFinalizado.bind(this));
 		 }else {
-			reset.call(this);
+			reset.call(this);			
 		}
-	}
+	}	
 	
 	function onBuscarCidadesFinalizado(cidades) {
 		var options = [];
 		cidades.forEach(function(cidade){
-			options.push('<option value"' + cidade.codigo + '">' + cidade.nome + '</option>');
+			options.push('<option value="' + cidade.codigo + '">' + cidade.nome + '</option>');
 		});
 		
 		this.combo.html(options.join(''));
 		this.combo.removeAttr('disabled');
+		
+		var codigoCidadeSelecionada = this.inputHiddenCidadeSelecionada.val();
+		if(codigoCidadeSelecionada){
+			this.combo.val(codigoCidadeSelecionada);
+		}
 	}
 	
 	function reset(){

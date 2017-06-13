@@ -28,6 +28,8 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 import com.prado.cerveja.controller.CervejasController;
+import com.prado.cerveja.controller.converter.CidadeConverter;
+import com.prado.cerveja.controller.converter.EstadoConverter;
 import com.prado.cerveja.controller.converter.EstiloConverter;
 import com.prado.cerveja.thymeleaf.BrewerDialect;
 
@@ -67,8 +69,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		return engine;
 	}
 	
-	
-	private ITemplateResolver templateResolver(){
+	@Bean
+	public ITemplateResolver templateResolver(){
 		SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
 		resolver.setApplicationContext(applicationContext);
 		resolver.setPrefix("classpath:/templates/");
@@ -86,6 +88,10 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public FormattingConversionService mvcConversionService(){
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter( new EstiloConverter());
+		conversionService.addConverter( new CidadeConverter());
+		conversionService.addConverter( new EstadoConverter());
+
+
 		
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
