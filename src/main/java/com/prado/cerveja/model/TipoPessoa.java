@@ -34,6 +34,10 @@ public enum TipoPessoa {
 	public Class<?> getGrupo() {
 		return grupo;
 	}
+	
+	public String removerFormatacao(String  cpfOucnpj){
+		return cpfOucnpj.replaceAll("\\.|-|/", "");
+	}
 	 
 	 
 }

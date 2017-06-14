@@ -10,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -46,7 +48,7 @@ public class Cliente implements Serializable{
 	@CPF(groups= CpfGroup.class)
 	@CNPJ(groups= CnpGroup.class)
 	@Column(name="cpf_cnpj")
-	private String CpfouCnpj;	
+	private String cpfouCnpj;	
 	
 	private String telefone;
 	
@@ -55,6 +57,11 @@ public class Cliente implements Serializable{
 	
 	@Embedded
 	private Endereco endereco;
+	
+	@PrePersist @PreUpdate
+	private void prePersistPreUpdate(){
+		this.cpfouCnpj = tipoPessoa.removerFormatacao(this.cpfouCnpj);
+	}
 
 	public Long getCodigo() {
 		return codigo;
@@ -81,11 +88,11 @@ public class Cliente implements Serializable{
 	}
 
 	public String getCpfouCnpj() {
-		return CpfouCnpj;
+		return cpfouCnpj;
 	}
 
-	public void setCpfouCnpj(String cpfouCnpj) {
-		CpfouCnpj = cpfouCnpj;
+	public void setCpfouCnpj(String cpfOucnpj) {
+		this.cpfouCnpj = cpfOucnpj;
 	}
 
 	public String getTelefone() {
@@ -110,6 +117,10 @@ public class Cliente implements Serializable{
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	
+	public String getCpfCnpjSemFormatacao(){
+		return tipoPessoa.removerFormatacao(this.cpfouCnpj);
 	}
 
 	@Override
