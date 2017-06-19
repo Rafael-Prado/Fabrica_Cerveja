@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -58,9 +59,14 @@ public class Cliente implements Serializable{
 	@Embedded
 	private Endereco endereco;
 	
+	@SuppressWarnings("static-access")
 	@PrePersist @PreUpdate
 	private void prePersistPreUpdate(){
 		this.cpfouCnpj = tipoPessoa.removerFormatacao(this.cpfouCnpj);
+	}
+	@PostLoad
+	private void postLoad(){
+		this.cpfouCnpj = this.tipoPessoa.formatar(this.cpfouCnpj);
 	}
 
 	public Long getCodigo() {
@@ -119,6 +125,7 @@ public class Cliente implements Serializable{
 		this.endereco = endereco;
 	}
 	
+	@SuppressWarnings("static-access")
 	public String getCpfCnpjSemFormatacao(){
 		return tipoPessoa.removerFormatacao(this.cpfouCnpj);
 	}

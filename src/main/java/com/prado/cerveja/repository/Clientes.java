@@ -1,15 +1,18 @@
 package com.prado.cerveja.repository;
 
+
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.prado.cerveja.model.Cliente;
+import com.prado.cerveja.repository.helper.cerveja.ClienteQueries;
 
 @Repository
-public interface Clientes extends JpaRepository<Cliente, Long> {
+public interface Clientes extends JpaRepository<Cliente, Long>, ClienteQueries {
 
-	public Optional<Cliente> findByCpfouCnpj(String cpfOucnpj);
+	public Optional<Cliente> findByCpfouCnpj(String cpfouCnpj);
+
 
 }
