@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -29,7 +31,7 @@ import com.prado.cerveja.service.CadastroCidadeService;
 import com.prado.cerveja.service.exception.NomeCidadeJaCadastradaException;
 
 @Controller
-@RequestMapping("/cidade")
+@RequestMapping("/cidades")
 public class CidadeController {
 	
 	@Autowired
@@ -48,12 +50,18 @@ public class CidadeController {
 		return mv;
 	}
 	
+	@Cacheable(value="cidades", key="#codigoEstado")
 	@RequestMapping(consumes= MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Cidade> pesquisaCodigoEstado( @RequestParam(name= "estado", defaultValue= "-1") Long codigoEstado){		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {	}
 		return cidades.findByEstadoCodigo(codigoEstado);
 	}
 	
+	
 	@PostMapping("/nova")
+	@CacheEvict(value="cidades", key="#cidade.estado.codigo", condition = "#cidade.temEstado()")
 	public ModelAndView salvar( @Valid Cidade cidade , BindingResult result, RedirectAttributes attributes){
 		if (result.hasErrors()){
 			return nova(cidade);
@@ -67,7 +75,7 @@ public class CidadeController {
 		}
 		
 		attributes.addFlashAttribute("mensagem", "Cidade salva com sucesso!");
-		return new ModelAndView("redirect:/cidade/nova");
+		return new ModelAndView("redirect:/cidades/nova");
 	}
 	
 	@GetMapping

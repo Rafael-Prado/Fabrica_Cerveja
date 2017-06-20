@@ -98,7 +98,7 @@
 						 <div class="col-sm-4  form-group">
 							 <label for="cidade">Cidade</label>
 							 <div class="cr-field-action">
-							 	<input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade}!= null ?	*{endereco.cidade.codigo}"/> 
+							 	<input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade}!= null ? *{endereco.cidade.codigo}"/> 
 								 <select id="cidade" class="form-control" data:url="@{/cidades}" th:field="*{endereco.cidade}">
 									<option value="">Selecione uma cidade</option>
 								 </select>

@@ -21,47 +21,44 @@ Cerveja.ComboEstado = (function(){
 }());
 
 Cerveja.ComboCidade =(function(){
-	function ComboCidade(comboEstado){
+	function ComboCidade(comboEstado) {
 		this.comboEstado = comboEstado;
 		this.combo = $('#cidade');
-		this.imgLoading = $('.js-img-loading')
-		this.inputHiddenCidadeSelecionada = $('#inputHiddencodigoCidadeSelecionada')
+		this.imgLoading = $('.js-img-loading');
+		this.inputHiddenCidadeSelecionada = $('#inputHiddenCidadeSelecionada');
 	}
-		
-	ComboCidade.prototype.iniciar = function(){
-		this.comboEstado.on('alterado', onEstadoAlterado.bind(this));
+	
+	ComboCidade.prototype.iniciar = function() {
 		reset.call(this);
-		var codigoEstado = this.comboEstado.combo.val();		
-		incializarCidade.call(this, codigoEstado);
-		
-		
-	}	
-	
-	function onEstadoAlterado(evento, codigoEstado) {		
-		this.inputHiddenCidadeSelecionada.val('');
-		incializarCidade.call(this, codigoEstado);
+		this.comboEstado.on('alterado', onEstadoAlterado.bind(this));
+		var codigoEstado = this.comboEstado.combo.val();
+		inicializarCidades.call(this, codigoEstado);
 	}
 	
-	function incializarCidade(codigoEstado){
-		if(codigoEstado){
-			   var resposta = $.ajax({
-				url: this.combo.data("url"),
-				method:'GET',
-				contentType:'application/json',
-				data:{'estado': codigoEstado},
+	function onEstadoAlterado(evento, codigoEstado) {
+		this.inputHiddenCidadeSelecionada.val('');
+		inicializarCidades.call(this, codigoEstado);
+	}
+	
+	function inicializarCidades(codigoEstado) {
+		if (codigoEstado) {
+			var resposta = $.ajax({
+				url: this.combo.data('url'),
+				method: 'GET',
+				contentType: 'application/json',
+				data: { 'estado': codigoEstado }, 
 				beforeSend: iniciarRequisicao.bind(this),
-				complete:  finalizarRequisicao.bind(this),
-		  
-		   });	
-			   resposta.done(onBuscarCidadesFinalizado.bind(this));
-		 }else {
-			reset.call(this);			
+				complete: finalizarRequisicao.bind(this)
+			});
+			resposta.done(onBuscarCidadesFinalizado.bind(this));
+		} else {
+			reset.call(this);
 		}
-	}	
+	}
 	
 	function onBuscarCidadesFinalizado(cidades) {
 		var options = [];
-		cidades.forEach(function(cidade){
+		cidades.forEach(function(cidade) {
 			options.push('<option value="' + cidade.codigo + '">' + cidade.nome + '</option>');
 		});
 		
@@ -69,22 +66,22 @@ Cerveja.ComboCidade =(function(){
 		this.combo.removeAttr('disabled');
 		
 		var codigoCidadeSelecionada = this.inputHiddenCidadeSelecionada.val();
-		if(codigoCidadeSelecionada){
+		if (codigoCidadeSelecionada) {
 			this.combo.val(codigoCidadeSelecionada);
 		}
 	}
 	
-	function reset(){
-		this.combo.html('<option value="">Selecione uma cidade</option>');
+	function reset() {
+		this.combo.html('<option value="">Selecione a cidade</option>');
 		this.combo.val('');
 		this.combo.attr('disabled', 'disabled');
 	}
 	
-	
-	function iniciarRequisicao(){
+	function iniciarRequisicao() {
 		reset.call(this);
 		this.imgLoading.show();
 	}
+	
 	function finalizarRequisicao() {
 		this.imgLoading.hide();
 	}
@@ -93,8 +90,7 @@ Cerveja.ComboCidade =(function(){
 	
 }());
 
-
-$(function(){
+$(function() {
 	
 	var comboEstado = new Cerveja.ComboEstado();
 	comboEstado.iniciar();
@@ -102,4 +98,4 @@ $(function(){
 	var comboCidade = new Cerveja.ComboCidade(comboEstado);
 	comboCidade.iniciar();
 	
-})
+});
