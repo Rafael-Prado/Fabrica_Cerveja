@@ -15,6 +15,7 @@ import com.prado.cerveja.model.Usuario;
 import com.prado.cerveja.repository.Grupos;
 import com.prado.cerveja.service.CadastroUsuarioService;
 import com.prado.cerveja.service.exception.EmailUsuarioJaCadastrado;
+import com.prado.cerveja.service.exception.SenhaObrigatoriaUsuarioException;
 
 @Controller
 @RequestMapping("/usuario")
@@ -42,6 +43,9 @@ public class UsuarioController {
 			usuarioService.salvar(usuario);
 		} catch (EmailUsuarioJaCadastrado e) {
 			result.rejectValue("Email", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		}catch(SenhaObrigatoriaUsuarioException e) {
+			result.rejectValue("senha", e.getMessage(), e.getMessage());
 			return novo(usuario);
 		}
 		attributes.addFlashAttribute("mensagem", "Usuario salvo com sucesso!");

@@ -57,7 +57,7 @@ public class Usuario  implements Serializable{
 	
 	@Column(name="data_nascimento")
 	private LocalDate dataNascimento;
-
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -122,6 +122,10 @@ public class Usuario  implements Serializable{
 		this.confirmacaoSenha = confirmacaoSenha;
 	}
 
+	public boolean isNovo(){
+		return codigo == null;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

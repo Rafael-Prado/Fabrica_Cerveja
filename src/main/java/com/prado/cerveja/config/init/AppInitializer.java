@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 
 import com.prado.cerveja.config.JPAConfig;
+import com.prado.cerveja.config.SecurityConfig;
 import com.prado.cerveja.config.ServiceConfig;
 import com.prado.cerveja.config.WebConfig;
 
@@ -16,7 +17,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[]{ JPAConfig.class, ServiceConfig.class };
+		return new Class<?>[]{ JPAConfig.class, ServiceConfig.class , SecurityConfig.class};
 	}
 
 	@Override
