@@ -13,11 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.prado.cerveja.validation.AtributoConfirmacao;
+
+@AtributoConfirmacao(atributoSenha= "senha", atributoConfirmacao="confirmacaoSenha", message="Senha e confirmação não confere!!")
 @Entity
 @Table(name="usuario")
 public class Usuario  implements Serializable{
@@ -37,10 +42,13 @@ public class Usuario  implements Serializable{
 	
 	private String senha;
 	
+	@Transient
+	private String confirmacaoSenha;
 	
+	@NotNull
 	private Boolean ativo;
 	
-	@NotNull(message="Selecione um grupo")
+	@Size(min= 1, message = "Informe um grupo para o usuário")
 	@ManyToMany
 	@JoinTable(name="usuario_grupo", joinColumns = @JoinColumn(name="codigo_usuario")
 	  , inverseJoinColumns = @JoinColumn(name="codigo_grupo"))
@@ -104,6 +112,14 @@ public class Usuario  implements Serializable{
 
 	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
+	}
+	
+	public String getConfirmacaoSenha() {
+		return confirmacaoSenha;
+	}
+
+	public void setConfirmacaoSenha(String confirmacaoSenha) {
+		this.confirmacaoSenha = confirmacaoSenha;
 	}
 
 	@Override

@@ -12,7 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import com.prado.cerveja.model.Usuario;
+import com.prado.cerveja.repository.Grupos;
 import com.prado.cerveja.service.CadastroUsuarioService;
+import com.prado.cerveja.service.exception.EmailUsuarioJaCadastrado;
 
 @Controller
 @RequestMapping("/usuario")
@@ -20,10 +22,14 @@ public class UsuarioController {
 	
 	@Autowired
 	private CadastroUsuarioService usuarioService;
+	
+	@Autowired
+	private Grupos grupos;
 
 	@RequestMapping("/novo")
 	public ModelAndView novo(Usuario usuario){
 		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");	
+		mv.addObject("grupos", grupos.findAll());
 		return mv; 
 	}
 	
@@ -32,7 +38,12 @@ public class UsuarioController {
 		if(result.hasErrors()){
 			return novo(usuario);
 		}
-		usuarioService.salvar(usuario);
+		try {
+			usuarioService.salvar(usuario);
+		} catch (EmailUsuarioJaCadastrado e) {
+			result.rejectValue("Email", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		}
 		attributes.addFlashAttribute("mensagem", "Usuario salvo com sucesso!");
 		return new ModelAndView("redirect:/usuario/novo");
 	}

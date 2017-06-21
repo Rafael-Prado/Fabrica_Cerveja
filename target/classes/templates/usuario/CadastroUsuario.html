@@ -8,7 +8,6 @@
 	<title>Cadastro Usuario</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
 </head>
-	
 <section class="aw-layout-content  js-content" layout:fragment="conteudo">	
 		<div class="page-header">
 				<div class="container-fluid">
@@ -37,7 +36,7 @@
 		<div class="row">
 			<div class="col-sm-12  form-group  cr-required" brewer:classforerror="nome">
 				<label for="nome" class="control-label">Nome</label>
-				<input id="nome" type="text" class="form-control" />
+				<input id="nome" type="text" class="form-control" th:field="*{nome}"/>
 			</div>
 		</div>
 		<div class="row">
@@ -47,23 +46,23 @@
 			</div>
 			<div class="col-sm-3  form-group">
 				<label for="dataNascimento" class="control-label">Data Nascimento</label>
-				<input id="dataNascimentol" type="text" class="form-control" th:field="*{dataNascimento}"/>
+				<input id="dataNascimentol" type="text" class="form-control  js-date" th:field="*{dataNascimento}" autocomplete="off"/>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-3  form-group  cr-required">
+			<div class="col-sm-3  form-group" brewer:classforerror="senha">
 				<label for="senha" class="control-label">Senha</label>
 				<input id="email" type="password" class="form-control" th:field="*{senha}"/>
 			</div>
-			<div class="col-sm-3  form-group  cr-required">
+			<div class="col-sm-3  form-group" brewer:classforerror="confirmacaoSenha">
 				<label for="confirmação" class="control-label">Confirmação de Senha</label>
-				<input id="confirmação" type="password" class="form-control" th:field="*{nome}"/>
+				<input id="confirmação" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
 			</div>
 			<div class="col-sm-3  form-group  cr-required">							
 				<label class="contrl-label">Status</label>
 					<div>
 						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger"
-						   data-on-text="Ativo" data-off-text="Inativo">
+						   data-on-text="Ativo" data-off-text="Inativo" th:field="*{ativo}">
 					</div>
 				
 			</div>
@@ -72,14 +71,12 @@
 				<div class="col-sm-6  form-group  cr-required" brewer:classforerror="grupos">							
 						<label class="control-label" >Grupos</label>
 						<div>
-							<div class="checkbox  checkbox-inline">
-								<input type="checkbox" >
-								<label>Administrador</label>
-							</div>
-							<div class="checkbox  checkbox-inline">
-								<input type="checkbox">
-								<label>Vendedor</label>
-							</div>
+						  <th:block th:each="grupo : ${grupos}">
+								<div class="checkbox  checkbox-inline">
+									<input type="checkbox" th:value="${grupo.codigo}" th:field="*{grupos}">
+									<label th:for="${#ids.prev('grupos')}" th:text="${grupo.nome}">Administrador</label>
+								</div>
+						 </th:block>
 						</div>
 				 </div>
 			</div>			

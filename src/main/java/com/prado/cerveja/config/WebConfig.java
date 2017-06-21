@@ -1,6 +1,7 @@
 package com.prado.cerveja.config;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -10,10 +11,13 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
@@ -36,6 +40,7 @@ import com.prado.cerveja.controller.CervejasController;
 import com.prado.cerveja.controller.converter.CidadeConverter;
 import com.prado.cerveja.controller.converter.EstadoConverter;
 import com.prado.cerveja.controller.converter.EstiloConverter;
+import com.prado.cerveja.controller.converter.GrupoConverter;
 import com.prado.cerveja.thymeleaf.BrewerDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
@@ -96,6 +101,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		conversionService.addConverter( new EstiloConverter());
 		conversionService.addConverter( new CidadeConverter());
 		conversionService.addConverter( new EstadoConverter());
+		conversionService.addConverter( new GrupoConverter());
 
 
 		
@@ -104,6 +110,12 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		
 		NumberStyleFormatter integerFormatter = new NumberStyleFormatter("#,##0");
 		conversionService.addFormatterForFieldType(Integer.class, integerFormatter);
+		
+		//API Java 8
+		DateTimeFormatterRegistrar dateTimeFormatter  = new DateTimeFormatterRegistrar();
+		dateTimeFormatter.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		dateTimeFormatter.registerFormatters(conversionService);
+		
 		
 		return conversionService;
 	}
@@ -122,6 +134,14 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		cacheManager.setCacheBuilder(cacheBuilder);
 		return cacheManager;
 		
+	}
+	
+	@Bean
+	public MessageSource messageSource(){
+		ReloadableResourceBundleMessageSource bundle = new ReloadableResourceBundleMessageSource();
+		bundle.setBasename("classpath:/messages");	
+		bundle.setDefaultEncoding("UTF-8"); // http://www.utf8-chartable.de/
+		return bundle;
 	}
 	
 }
