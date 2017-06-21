@@ -2,54 +2,64 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
    xmlns:th="http//www.thymeleaf.org"
    xmlns:layout="http://www.ultra.net.nz/thymeleaf/layout"
-   layout:decorator="layout/LayoutPadrao">
+   layout:decorate="~{layout/LayoutPadrao}"
+   xmlns:brewer="prado.com">
 <head>
 	<title>Cadastro Usuario</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
 </head>
 	
 <section class="aw-layout-content  js-content" layout:fragment="conteudo">	
-			<div class="page-header">
+		<div class="page-header">
 				<div class="container-fluid">
-					<h1>
-						Cadastro de Usuário
-					</h1>
+					<div class="row">
+						<div class="col-sm-10">
+						 <h1>Cadastro Usuário</h1>
+						</div>
+						
+						<div class="col-sm-2">
+							<div class="aw-page-header-controls">
+								<a class="btn btn-default" th:href="@{/usuario}" >
+									<i class="glyphicon glyphicon-plus-sign"></i><span class="hidden-xs  hidden-sm">Pesquisa Usuários</span>
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-	<div class="container-fluid">
-		
-				<!--<div class="alert  alert-danger  alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<i class="fa  fa-exclamation-circle"></i> Já existe um produto com o nome informado.
-				</div>-->
 	
-		<form method="POST" th:object="${cliente}"  class="form-vertical  js-form-loading">
+	<div class="container-fluid">		
+	
+		<form method="POST" th:object="${usuario}"  class="form-vertical xjs-form-loading">
+		
+		<brewer:message/>
+		
 		<div class="row">
-			<div class="col-sm-12  form-group">
-				<label for="nome">Nome</label>
-				<input id="nome" type="text" class="form-control"/>
+			<div class="col-sm-12  form-group  cr-required" brewer:classforerror="nome">
+				<label for="nome" class="control-label">Nome</label>
+				<input id="nome" type="text" class="form-control" th:field="{nome}"/>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6  form-group">
-				<label for="email">E-mail</label>
-				<input id="email" type="text" class="form-control"/>
+			<div class="col-sm-6  form-group  cr-required" brewer:classforerror="email">
+				<label for="email" class="control-label">E-mail</label>
+				<input id="email" type="text" class="form-control" th:field="*{email}"/>
 			</div>
 			<div class="col-sm-3  form-group">
-				<label for="dataNascimento">Data Nascimento</label>
-				<input id="dataNascimentol" type="text" class="form-control"/>
+				<label for="dataNascimento" class="control-label">Data Nascimento</label>
+				<input id="dataNascimentol" type="text" class="form-control" th:field="*{dataNascimento}"/>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-3  form-group">
-				<label for="senha">Senha</label>
-				<input id="email" type="password" class="form-control"/>
+			<div class="col-sm-3  form-group  cr-required">
+				<label for="senha" class="control-label">Senha</label>
+				<input id="email" type="password" class="form-control" th:field="*{senha}"/>
 			</div>
-			<div class="col-sm-3  form-group">
-				<label for="confirmação">Confirmação de Senha</label>
-				<input id="confirmação" type="password" class="form-control"/>
+			<div class="col-sm-3  form-group  cr-required">
+				<label for="confirmação" class="control-label">Confirmação de Senha</label>
+				<input id="confirmação" type="password" class="form-control" th:field="*{nome}"/>
 			</div>
-			<div class="col-sm-3  form-group">							
+			<div class="col-sm-3  form-group  cr-required">							
 				<label class="contrl-label">Status</label>
 					<div>
 						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger"
@@ -59,11 +69,11 @@
 			</div>
 		</div>
 			<div class="row">
-				<div class="col-sm-6  form-group">							
-						<label class="control-label">Grupos</label>
+				<div class="col-sm-6  form-group  cr-required" brewer:classforerror="grupos">							
+						<label class="control-label" >Grupos</label>
 						<div>
 							<div class="checkbox  checkbox-inline">
-								<input type="checkbox">
+								<input type="checkbox" >
 								<label>Administrador</label>
 							</div>
 							<div class="checkbox  checkbox-inline">

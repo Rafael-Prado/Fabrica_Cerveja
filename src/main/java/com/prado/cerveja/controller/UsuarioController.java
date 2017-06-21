@@ -1,15 +1,39 @@
 package com.prado.cerveja.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import javax.validation.Valid;
 
-import com.prado.cerveja.model.Cliente;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
+import com.prado.cerveja.model.Usuario;
+import com.prado.cerveja.service.CadastroUsuarioService;
 
 @Controller
+@RequestMapping("/usuario")
 public class UsuarioController {
+	
+	@Autowired
+	private CadastroUsuarioService usuarioService;
 
-	@RequestMapping("/usuario/novo")
-	public String novo(Cliente cliente){
-		return "usuario/CadastroUsuario"; 
+	@RequestMapping("/novo")
+	public ModelAndView novo(Usuario usuario){
+		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");	
+		return mv; 
+	}
+	
+	@RequestMapping(value = "/novo", method = RequestMethod.POST)
+	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes){
+		if(result.hasErrors()){
+			return novo(usuario);
+		}
+		usuarioService.salvar(usuario);
+		attributes.addFlashAttribute("mensagem", "Usuario salvo com sucesso!");
+		return new ModelAndView("redirect:/usuario/novo");
 	}
 }
