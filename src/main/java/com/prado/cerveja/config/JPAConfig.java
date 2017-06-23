@@ -3,13 +3,11 @@ package com.prado.cerveja.config;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -26,31 +24,10 @@ import com.prado.cerveja.repository.Cervejas;
 @ComponentScan(basePackageClasses = Cervejas.class)
 @EnableJpaRepositories(basePackageClasses = Cervejas.class, enableDefaultTransactions= false)
 @EnableTransactionManagement
-//@PropertySource(value= "classpath:application.properties")
 public class JPAConfig {
 	
-	@Value(value="${jdbc.user}")
-	private String username;
-	
-	@Value(value="${jdbc.pass}")
-	private String password;
-	
-	@Value(value="${jdbc.driver}")
-	private String driver;
-	
-	@Value(value="${jdbc.url}")
-	private String url;
-	
-	
-	
 	@Bean
-	public DataSource dataSource() {
-		//DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		//dataSource.setUsername(username);
-		//dataSource.setPassword(password);
-		//dataSource.setDriverClassName(driver);
-		//dataSource.setUrl(url);		
-		//return dataSource;
+	public DataSource dataSource() {		
 		
 		JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
 		dataSourceLookup.setResourceRef(true);

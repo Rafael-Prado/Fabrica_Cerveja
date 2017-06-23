@@ -41,7 +41,7 @@ public class CidadeController {
 	private Estados estados;
 	
 	@Autowired
-	private CadastroCidadeService cadastroCervejaService;
+	private CadastroCidadeService cadastroCidadeService;
 
 	@RequestMapping("/nova")
 	public ModelAndView nova(Cidade cidade){
@@ -67,7 +67,7 @@ public class CidadeController {
 			return nova(cidade);
 		}
 		try {			
-			cadastroCervejaService.salvar(cidade);
+			cadastroCidadeService.salvar(cidade);
 			
 		} catch (NomeCidadeJaCadastradaException e) {
 			result.rejectValue("nome", e.getMessage(), e.getMessage());
