@@ -3,7 +3,9 @@
    xmlns:th="http//www.thymeleaf.org"
    xmlns:layout="http://www.ultra.net.nz/thymeleaf/layout"
    layout:decorate="~{layout/LayoutPadrao}"
-   xmlns:brewer="prado.com">
+   xmlns:brewer="prado.com"   
+	xmlns:data="http://www.thymeleaf.org/extras/data"   
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <title>Cadastro Cidade</title>
 </head>
@@ -16,7 +18,7 @@
 						 <h1>Cadastro Cidade</h1>
 						</div>
 						
-						<div class="col-sm-2">
+						<div class="col-sm-2"  >
 							<div class="aw-page-header-controls">
 								<a class="btn btn-default" th:href="@{/cidades}" >
 									<i class="glyphicon glyphicon-plus-sign"></i><span class="hidden-xs  hidden-sm">Pesquisa</span>
