@@ -4,20 +4,21 @@ import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
-
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 
 import com.prado.cerveja.config.JPAConfig;
 import com.prado.cerveja.config.SecurityConfig;
 import com.prado.cerveja.config.ServiceConfig;
 import com.prado.cerveja.config.WebConfig;
 
+
+
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[]{ JPAConfig.class, ServiceConfig.class , SecurityConfig.class};
+		return new Class<?>[] { JPAConfig.class, ServiceConfig.class, SecurityConfig.class };
 	}
 
 	@Override
@@ -27,18 +28,18 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] {"/"};
+		return new String[] { "/" };
 	}
 	
-	protected Filter[] getServletFilter() {
-		return new Filter[] {};
+	@Override
+	protected Filter[] getServletFilters() {
+		HttpPutFormContentFilter httpPutFormContentFilter = new HttpPutFormContentFilter();
+        return new Filter[] { httpPutFormContentFilter };
 	}
 	
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
 		registration.setMultipartConfig(new MultipartConfigElement(""));
 	}
-		
-
 
 }
