@@ -1,4 +1,4 @@
-package com.prado.cerveja.config;
+	package com.prado.cerveja.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	http
     		.authorizeRequests() 
     			.antMatchers("/cidades/nova").hasRole("CADASTRAR_CIDADE")
-    			.antMatchers("/usuario/**").hasRole("CADASTRAR_USUARIO")
+    			.antMatchers("/usuario/**").hasRole("CADASTRAR_VENDEDOR")
 	    		.anyRequest().authenticated()
 	    		.and()
     		.formLogin()
